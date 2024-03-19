@@ -35,45 +35,40 @@ public class MenuController {
         Button joinLobby = new Button("Join Lobby");
 
 
-        local.setOnAction( evt -> setLocalMenuButtons(regular, special, back) );
+        local.setOnAction( evt -> {
+            changeButtons(regular, special, back);
+        } );
+
         online.setOnAction( evt -> {
-            setOnlineMenuButtons(regular, special, back);
+            changeButtons(regular, special, back);
             isOnline = true;
         } );
-        credits.setOnAction( evt -> displayCredits(back) );
+
+        credits.setOnAction( evt -> {
+            displayCredits(back);
+        } );
+
         back.setOnAction( evt -> {
-            setMainMenuButtons(local, online, credits);
+            changeButtons(local, online, credits);
             root.getChildren().setAll(LOGO, buttons);
         } );
 
-        setMainMenuButtons(local, online, credits);
-        root.setAlignment(Pos.CENTER);
+        changeButtons(local, online, credits);
         buttons.setAlignment(Pos.CENTER);
         buttons.setStyle("-fx-padding: 30px");
+        root.setAlignment(Pos.CENTER);
         return root;
     }
 
-    public void setMainMenuButtons(Button local, Button online, Button credits) {
-        buttons.getChildren().setAll(local, online, credits);
-    }
-
-    public void setLocalMenuButtons(Button regular, Button special, Button back) {
-        buttons.getChildren().setAll(regular, special, back);
-    }
-
-    public void setOnlineMenuButtons(Button regular, Button special, Button back) {
-        buttons.getChildren().setAll(regular, special, back);
+    public void changeButtons(Button button1, Button button2, Button button3) {
+        buttons.getChildren().setAll(button1, button2, button3);
     }
 
     public void displayCredits(Button back) {
-        Label creditsMessage= new Label("Credits will be added later!");
+        Label creditsMessage = new Label("Credits will be added later!");
         creditsMessage.setStyle("-fx-font-size: 30px");
         buttons.getChildren().setAll(back);
         root.getChildren().setAll(creditsMessage, buttons);
-    }
-
-    public void setCreateLobby() {
-
     }
 
     public void styleButton(Button button1) {
