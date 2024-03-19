@@ -109,7 +109,7 @@ public class MenuController {
 
         changeButtons(local, online, credits);
         buttons.setAlignment(Pos.CENTER);
-        buttons.setStyle("-fx-padding: 30px");
+        buttons.setStyle("-fx-pdding: 30px");
         root.setAlignment(Pos.CENTER);
         return root;
     }
@@ -128,6 +128,7 @@ public class MenuController {
 
     public void styleButton(Button button1) {
         buttons.setHgrow(button1, Priority.ALWAYS);
+        button1.setStyle("-fx-font-family: 'Comic Sans MS' ");
         button1.setMaxWidth(200);
         button1.setMinWidth( button1.getPrefWidth() );
         button1.setStyle("-fx-font-size: 20px");

@@ -38,6 +38,7 @@ public class GameClient {
                 try {
                     Socket connection = new Socket(hostName, portName);
                     Label message = new Label("Connection successful!");
+                    message.setStyle("-fx-font-size: 20px");
                     buttons.getChildren().setAll(message);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
