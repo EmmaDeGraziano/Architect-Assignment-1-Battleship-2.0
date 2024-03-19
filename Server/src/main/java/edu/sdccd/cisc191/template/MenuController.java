@@ -1,5 +1,6 @@
 package edu.sdccd.cisc191.template;
 
+import edu.sdccd.cisc191.template.GameClient;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -9,9 +10,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Priority;
 
+import java.io.IOException;
+
 public class MenuController {
     private boolean isOnline = false;
     private boolean isSpecial = false;
+    private boolean isCredit = false;
     private static ImageView LOGO = new ImageView( new Image("https://static.wikia.nocookie.net/logopedia/images/8/8c/4e173fe993fef3933e455d4a2fa85d66.png/revision/latest?cb=20180225015935", 900, 271.5, true, true) );
     private static HBox buttons = new HBox(30);
     private static VBox root = new VBox(LOGO, buttons);
@@ -28,30 +32,75 @@ public class MenuController {
         styleButton(regular);
         Button special = new Button("Special Mode");
         styleButton(special);
-        Button back = new Button ("Back");
-        styleButton(back);
+        Button mainMenu = new Button ("Main Menu");
+        styleButton(mainMenu);
 
         Button createLobby = new Button("Create Lobby");
+        styleButton(createLobby);
         Button joinLobby = new Button("Join Lobby");
+        styleButton(joinLobby);
 
 
         local.setOnAction( evt -> {
-            changeButtons(regular, special, back);
+            changeButtons(regular, special, mainMenu);
         } );
 
         online.setOnAction( evt -> {
-            changeButtons(regular, special, back);
+            changeButtons(regular, special, mainMenu);
             isOnline = true;
         } );
 
         credits.setOnAction( evt -> {
-            displayCredits(back);
+            displayCredits(mainMenu);
         } );
 
-        back.setOnAction( evt -> {
+
+        mainMenu.setOnAction( evt -> {
             changeButtons(local, online, credits);
-            root.getChildren().setAll(LOGO, buttons);
+            if (isOnline)
+                isOnline=false;
+
+            if (isCredit) {
+                isCredit=false;
+                root.getChildren().setAll(LOGO, buttons);
+            }
         } );
+
+        regular.setOnAction( evt -> {
+            if(isOnline) {
+                changeButtons(createLobby, joinLobby, mainMenu);
+            }
+            else {
+                //code to start setting up Battleships local and regular
+            }
+        } );
+
+        special.setOnAction( evt -> {
+            if(isOnline) {
+                isSpecial = true;
+                changeButtons(createLobby, joinLobby, mainMenu);
+            }
+            else {
+                isSpecial = true;
+                //code to start setting up Battleships special and local
+            }
+        } );
+
+        createLobby.setOnAction( evt -> {
+            GameServer server = null;
+            try {
+                server = new GameServer();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            buttons.getChildren().setAll( server.getPortMessage() );
+        } );
+
+        joinLobby.setOnAction( evt -> {
+            GameClient client = new GameClient();
+            root.getChildren().setAll(LOGO, client.getHBox() );
+        } );
+
 
         changeButtons(local, online, credits);
         buttons.setAlignment(Pos.CENTER);
@@ -64,10 +113,11 @@ public class MenuController {
         buttons.getChildren().setAll(button1, button2, button3);
     }
 
-    public void displayCredits(Button back) {
+    public void displayCredits(Button mainMenu) {
+        isCredit = true;
         Label creditsMessage = new Label("Credits will be added later!");
         creditsMessage.setStyle("-fx-font-size: 30px");
-        buttons.getChildren().setAll(back);
+        buttons.getChildren().setAll(mainMenu);
         root.getChildren().setAll(creditsMessage, buttons);
     }
 
