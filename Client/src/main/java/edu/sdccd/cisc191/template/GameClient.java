@@ -37,6 +37,8 @@ public class GameClient {
                 portName = Integer.parseInt( portNameTextField.getText() );
                 try {
                     Socket connection = new Socket(hostName, portName);
+                    Label message = new Label("Connection successful!");
+                    buttons.getChildren().setAll(message);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
