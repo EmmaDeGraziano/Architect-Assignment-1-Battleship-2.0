@@ -7,7 +7,9 @@ import java.net.Socket;
 import javafx.scene.control.Label;
 
 public class GameServer {
-    private final int PORT = (int)(Math.random()*(65535-1025)+1025);
+    //private final int PORT = (int)(Math.random()*(65535-1025)+1025);
+
+    private final int PORT = 4200; //Example port for presentation
     private ServerSocket listener = new ServerSocket();
     private Socket connection;
     private Label message = new Label("Server is listening on port " + PORT + "...");

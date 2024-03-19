@@ -97,7 +97,12 @@ public class MenuController {
         } );
 
         joinLobby.setOnAction( evt -> {
-            GameClient client = new GameClient();
+            GameClient client = null;
+            try {
+                client = new GameClient();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             root.getChildren().setAll(LOGO, client.getHBox() );
         } );
 
